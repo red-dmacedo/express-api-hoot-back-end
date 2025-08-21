@@ -11,8 +11,8 @@ router.get('/', verifyToken, async (req, res) => {
       .populate("author")
       .sort({ createdAt: "desc" });
     res.status(200).json(hoots);
-  } catch (err) {
-    res.status(500).json({err: err.message});
+  } catch (error) {
+    res.status(500).json({error: error.message});
   };
 });
 
@@ -23,8 +23,8 @@ router.get("/:hootId", verifyToken, async (req, res) => {
       'comments.author',
     ]);
     res.status(200).json(hoot);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -50,8 +50,8 @@ router.put("/:hootId", verifyToken, async (req, res) => {
 
     // Issue JSON response:
     res.status(200).json(updatedHoot);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -65,8 +65,8 @@ router.delete("/:hootId", verifyToken, async (req, res) => {
 
     const deletedHoot = await Hoot.findByIdAndDelete(req.params.hootId);
     res.status(200).json(deletedHoot);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -76,8 +76,8 @@ router.post("/", verifyToken, async (req, res) => {
     const hoot = await Hoot.create(req.body);
     hoot._doc.author = req.user;
     res.status(201).json(hoot);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -95,8 +95,8 @@ router.post("/:hootId/comments", verifyToken, async (req, res) => {
 
     // Respond with the newComment:
     res.status(201).json(newComment);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -115,8 +115,8 @@ router.put("/:hootId/comments/:commentId", verifyToken, async (req, res) => {
     comment.text = req.body.text;
     await hoot.save();
     res.status(200).json({ message: "Comment updated successfully" });
-  } catch(err) {
-    res.status(500).json({ err: err.message });
+  } catch(error) {
+    res.status(500).json({ error: error.message });
   };
 });
 
@@ -135,8 +135,8 @@ router.delete("/:hootId/comments/:commentId", verifyToken, async (req, res) => {
     hoot.comments.remove({ _id: req.params.commentId });
     await hoot.save();
     res.status(200).json({ message: "Comment deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
